@@ -9,9 +9,6 @@ export default (initialState = {}) => {
   // Middleware Configuration
   // ======================================================
   const middleware = [thunk]
-  // ======================================================
-  // Store Enhancers
-  // ======================================================
   const enhancers = []
   let composeEnhancers = compose
   if (__DEV__) {
@@ -27,10 +24,7 @@ export default (initialState = {}) => {
   const store = createStore(
     makeRootReducer(),
     initialState,
-    composeEnhancers(
-      applyMiddleware(...middleware),
-      ...enhancers
-    )
+    composeEnhancers( applyMiddleware(...middleware), ...enhancers )
   )
   store.asyncReducers = {}
 

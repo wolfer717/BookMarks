@@ -6,12 +6,12 @@ import HomeIcon from 'material-ui/svg-icons/action/home';
 import IconMenu from "material-ui/IconMenu"
 import MenuItem from "material-ui/MenuItem"
 import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
 import {actions} from '../../store/redux/header'
 
-const BarMenu = ({props}) => (
+const BarMenu = () => (
   <IconMenu
-    {...props}
     iconButtonElement={ <IconButton><MoreVertIcon /></IconButton> }
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
@@ -26,16 +26,18 @@ class Header extends React.Component {
     open: false
   }
   handleOpen = () => {
+    debugger
     this.setState({open: true});
   }
   handleClose = () => {
+    debugger
     this.setState({open: false});
   }
-  render({props}){
+  render(){
     return (
       <AppBar title="BookMarks"
               iconElementLeft={<IconButton><HomeIcon /></IconButton>}
-              iconElementRight={props.isLogin ? <BarMenu {...props}/> : <FlatButton label="登陆" onTouchTap={this.handleOpen}/>} >
+              iconElementRight={false ? <BarMenu/> : <FlatButton label="登陆" onTouchTap={this.handleOpen} />} >
         <Dialog title="登陆"
                 modal={false}
                 open={this.state.open}
@@ -48,14 +50,14 @@ class Header extends React.Component {
   }
 }
 
-Header.propTypes = {
-  isLogin : React.PropTypes.bool.isRequired
-}
+// Header.propTypes = {
+//   isLogin : React.PropTypes.bool.isRequired
+// }
+//
+// const mapStateToProps = (state) => {
+//   debugger
+//   return { ...state }
+// }
 
-const mapStateToProps = (state) => {
-  debugger
-  return { ...state }
-}
 
-
-export default connect(mapStateToProps)(Header)
+export default Header //connect(mapStateToProps)(Header)
