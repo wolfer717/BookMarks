@@ -8,7 +8,7 @@ import MenuItem from "material-ui/MenuItem"
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
-import {actions} from '../../store/redux/header'
+import {userLogin, openDialog, closeDialog} from '../../store/rootReducer'
 
 const BarMenu = () => (
   <IconMenu
@@ -22,26 +22,33 @@ const BarMenu = () => (
 )
 
 class Header extends React.Component {
-  state = {
-    open: false
-  }
-  handleOpen = () => {
-    debugger
-    this.setState({open: true});
-  }
-  handleClose = () => {
-    debugger
-    this.setState({open: false});
+  actions = [
+    <FlatButton
+      label="取消"
+      primary={true}
+      onTouchTap={this.props.closeDialog}
+    />,
+    <FlatButton
+      label="登陆"
+      primary={true}
+      keyboardFocused={true}
+      onTouchTap={this.props.userLogin}
+    />,
+  ]
+  onLogin = () => {
+
   }
   render(){
+    const { isLogin, isOpen, closeDialog, openDialog} = this.props
     return (
       <AppBar title="BookMarks"
               iconElementLeft={<IconButton><HomeIcon /></IconButton>}
-              iconElementRight={false ? <BarMenu/> : <FlatButton label="登陆" onTouchTap={this.handleOpen} />} >
+              iconElementRight={isLogin ? <BarMenu/> : <FlatButton label="登陆" onTouchTap={openDialog} />} >
         <Dialog title="登陆"
                 modal={false}
-                open={this.state.open}
-                onRequestClose={this.handleClose}
+                open={isOpen}
+                actions={this.actions}
+                onRequestClose={closeDialog}
         >
           登陆弹窗
         </Dialog>
@@ -50,14 +57,21 @@ class Header extends React.Component {
   }
 }
 
-// Header.propTypes = {
-//   isLogin : React.PropTypes.bool.isRequired
-// }
-//
-// const mapStateToProps = (state) => {
-//   debugger
-//   return { ...state }
-// }
+Header.propTypes = {
+  isLogin : React.PropTypes.bool.isRequired,
+  isOpen: React.PropTypes.bool.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  isLogin: state.root.isLogin,
+  isOpen: state.root.isOpen
+})
+
+const mapActionCreators = {
+  userLogin,
+  openDialog,
+  closeDialog
+}
 
 
-export default Header //connect(mapStateToProps)(Header)
+export default connect(mapStateToProps, mapActionCreators)(Header)

@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import {browserHistory} from 'react-router'
 import makeRootReducer from './reducers'
 import {updateLocation} from './location'
+import rootReducer from './rootReducer'
 
 export default (initialState = {}) => {
   // ======================================================
@@ -22,7 +23,7 @@ export default (initialState = {}) => {
   // Store Instantiation and HMR Setup
   // ======================================================
   const store = createStore(
-    makeRootReducer(),
+    makeRootReducer({root: rootReducer}),
     initialState,
     composeEnhancers( applyMiddleware(...middleware), ...enhancers )
   )
